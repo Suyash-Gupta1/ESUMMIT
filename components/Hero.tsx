@@ -1,42 +1,51 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
 import Link from 'next/link';
 
 // --- DATA ---
+// FIX 1: Reduced image resolution (w=500) for faster loading and rendering
 const CARDS = [
   {
     id: 1,
     label: "MEMORIES '25",
-    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=1000&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?q=80&w=500&auto=format&fit=crop", 
   },
   {
     id: 2,
     label: "NETWORKING",
-    image: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=1000&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=500&auto=format&fit=crop", 
   },
   {
     id: 3,
     label: "INNOVATION",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500&auto=format&fit=crop", 
   },
   {
     id: 4,
     label: "LEADERSHIP",
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1000&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=500&auto=format&fit=crop", 
   },
   {
     id: 5,
     label: "CULTURE",
-    image: "https://images.unsplash.com/photo-1524601500432-1e1a4c71d692?q=80&w=1000&auto=format&fit=crop", 
+    image: "https://images.unsplash.com/photo-1524601500432-1e1a4c71d692?q=80&w=500&auto=format&fit=crop", 
   }
 ];
 
 const Hero: React.FC = () => {
   const [cards, setCards] = useState(CARDS);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Move top card to back
+  // FIX 2: Detect mobile device to disable heavy effects
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const moveToEnd = (fromIndex: number) => {
     setCards((currentCards) => {
       const newCards = [...currentCards];
@@ -47,7 +56,6 @@ const Hero: React.FC = () => {
   };
 
   return (
-    // Restored to min-h-screen for normal mobile height
     <div className="relative w-full min-h-screen bg-[#FCF7E4] text-[#1a1a1a] font-serif overflow-x-hidden selection:bg-[#c25e5e] selection:text-white flex flex-col items-center">
       
       {/* --- BACKGROUND TEXTURES --- */}
@@ -58,26 +66,21 @@ const Hero: React.FC = () => {
           backgroundSize: '30px 30px'
         }}
       />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      {/* FIX 3: Disable noise texture on mobile (heavy on GPU) */}
+      <div className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.1)_100%)]" />
 
       {/* --- SIDE STRIPES (Hidden on Mobile) --- */}
-      {/* Left Stripes */}
       <div className="hidden md:block fixed top-0 left-0 h-full w-2 md:w-3 bg-[#e0a82e] border-r-2 border-[#2a2a2a] z-40"></div>
       <div className="hidden md:block fixed top-0 left-2 md:left-3 h-full w-2 md:w-3 bg-[#c25e5e] border-r-2 border-[#2a2a2a] z-40"></div>
-      
-      {/* Right Stripes */}
       <div className="hidden md:block fixed top-0 right-0 h-full w-2 md:w-3 bg-[#c25e5e] border-l-2 border-[#2a2a2a] z-40"></div>
       <div className="hidden md:block fixed top-0 right-2 md:right-3 h-full w-2 md:w-3 bg-[#e0a82e] border-l-2 border-[#2a2a2a] z-40"></div>
 
       {/* --- MAIN CONTENT --- */}
-      {/* Restored normal padding: pt-20 pb-12 on mobile */}
       <main className="relative z-10 flex flex-col items-center w-full max-w-[1400px] px-6 md:px-16 pt-20 md:pt-24 pb-12 md:pb-12">
         
         {/* HEADER WRAPPER */}
         <div className="flex flex-col items-center w-full mb-8 md:mb-12">
-            
-            {/* PILL LABEL */}
             <motion.div 
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -86,7 +89,6 @@ const Hero: React.FC = () => {
               Curating the Continuum • 2026
             </motion.div>
 
-            {/* MAIN TITLE */}
             <div className="order-1 md:order-2 relative text-center w-full mt-0 md:mt-8">
                 <h1 className="relative font-black text-[13vw] md:text-8xl lg:text-[10rem] leading-none tracking-tight text-[#FCF7E4] select-none z-10 whitespace-nowrap"
                     style={{ 
@@ -101,7 +103,7 @@ const Hero: React.FC = () => {
         {/* --- CENTRAL LAYOUT --- */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center mt-2">
           
-          {/* LEFT: "01" (Hidden on Mobile) */}
+          {/* LEFT */}
           <div className="hidden lg:flex lg:col-span-3 flex-col items-start pl-12">
             <h2 className="text-6xl font-serif font-bold text-[#e0a82e] mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">01.</h2>
             <p className="font-bold text-sm uppercase leading-relaxed tracking-widest text-[#4a3b2a]">
@@ -109,7 +111,7 @@ const Hero: React.FC = () => {
             </p>
           </div>
 
-          {/* CENTER: Fanned Card Deck */}
+          {/* CENTER: CARDS */}
           <div className="col-span-1 lg:col-span-6 flex justify-center relative h-[300px] md:h-[400px] items-center perspective-1000 z-20">
              <div className="relative w-full h-full flex items-center justify-center">
                  <AnimatePresence>
@@ -122,8 +124,9 @@ const Hero: React.FC = () => {
                      let yVal = 0;
                      let scaleVal = 1 - index * 0.05;
 
-                     if (index === 1) { rotateVal = -6; xVal = typeof window !== 'undefined' && window.innerWidth < 768 ? -15 : -40; yVal = 10; }
-                     if (index === 2) { rotateVal = 6; xVal = typeof window !== 'undefined' && window.innerWidth < 768 ? 15 : 40; yVal = 10; }
+                     // Tighter spread on mobile
+                     if (index === 1) { rotateVal = -6; xVal = isMobile ? -15 : -40; yVal = 10; }
+                     if (index === 2) { rotateVal = 6; xVal = isMobile ? 15 : 40; yVal = 10; }
                      if (index === 3) { rotateVal = 0; yVal = -20; scaleVal = 0.9; }
 
                      return (
@@ -134,6 +137,7 @@ const Hero: React.FC = () => {
                          isTop={isTop}
                          customStyle={{ x: xVal, y: yVal, rotate: rotateVal, scale: scaleVal }}
                          onSwipe={() => moveToEnd(0)}
+                         isMobile={isMobile}
                        />
                      );
                    })}
@@ -141,14 +145,13 @@ const Hero: React.FC = () => {
              </div>
           </div>
 
-          {/* RIGHT: "08.08" (Hidden on Mobile) */}
+          {/* RIGHT */}
           <div className="hidden lg:flex lg:col-span-3 flex-col items-end pr-12 text-right">
             <h2 className="text-6xl font-serif font-bold text-[#c25e5e] mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">08.08</h2>
             <p className="font-bold text-sm uppercase leading-relaxed tracking-widest text-[#4a3b2a]">
               Friday • August 8th<br/>West Bengal<br/>India
             </p>
           </div>
-
         </div>
 
         {/* --- MOBILE INFO ROW --- */}
@@ -180,15 +183,13 @@ const Hero: React.FC = () => {
             </motion.button>
           </Link>
         </div>
-
       </main>
-
     </div>
   );
 };
 
-// --- CARD COMPONENT ---
-const Card = ({ data, index, isTop, onSwipe, customStyle }: { data: any, index: number, isTop: boolean, onSwipe: () => void, customStyle: any }) => {
+// --- OPTIMIZED CARD COMPONENT ---
+const Card = ({ data, index, isTop, onSwipe, customStyle, isMobile }: any) => {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-10, 10]);
   const opacity = useTransform(x, [-150, 0, 150], [0, 1, 0]);
@@ -205,7 +206,8 @@ const Card = ({ data, index, isTop, onSwipe, customStyle }: { data: any, index: 
       }}
       drag={isTop ? "x" : false}
       dragConstraints={{ left: 0, right: 0 }}
-      dragElastic={0.1}
+      // FIX 4: Less drag resistance on mobile for easier swipes
+      dragElastic={0.05}
       onDragEnd={(_, info) => {
         if (Math.abs(info.offset.x) > 100) onSwipe();
       }}
@@ -217,7 +219,9 @@ const Card = ({ data, index, isTop, onSwipe, customStyle }: { data: any, index: 
         rotate: isTop ? 0 : customStyle.rotate,
         opacity: 1
       }}
-      transition={{ type: "spring", stiffness: 200, damping: 25 }}
+      // FIX 5: Snappier spring physics for mobile
+      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      // FIX 6: 'will-change-transform' forces GPU usage, preventing lag
       className={`
         absolute 
         w-[85vw] md:w-[420px] aspect-[4/3]
@@ -229,6 +233,7 @@ const Card = ({ data, index, isTop, onSwipe, customStyle }: { data: any, index: 
         cursor-grab active:cursor-grabbing 
         rounded-sm
         touch-none
+        will-change-transform 
       `}
     >
       <div className="w-full h-[85%] bg-[#1a1a1a] border border-[#ccc] relative overflow-hidden mb-2 md:mb-3">
@@ -236,7 +241,8 @@ const Card = ({ data, index, isTop, onSwipe, customStyle }: { data: any, index: 
             src={data.image} 
             alt="Vintage" 
             draggable="false"
-            className="w-full h-full object-cover sepia-[0.3] contrast-125 hover:sepia-0 transition-all duration-500 select-none"
+            // FIX 7: Disable Sepia/Contrast filters on mobile to save GPU power
+            className={`w-full h-full object-cover transition-all duration-500 select-none ${!isMobile ? 'sepia-[0.3] contrast-125 hover:sepia-0' : ''}`}
          />
          <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] pointer-events-none"></div>
       </div>
