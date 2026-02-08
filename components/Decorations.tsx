@@ -1,21 +1,16 @@
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-// Dimensions
+
 const STRIPE_WIDTH = 32;
 const GAP = 16; 
-const Y_START = -100; // Start slightly off-screen top to handle bounce/overscroll
-
-// Colors
+const Y_START = -100; 
 const COLOR_YELLOW = '#FDD835';
 const COLOR_ORANGE = '#FFB74D';
 const COLOR_PINK = '#F48FB1';
 
 export const RetroStripesLeft: React.FC = () => {
     const { scrollY } = useScroll();
-    
-    // Parallax speeds - Staggered to create a shearing pattern
-    // As user scrolls down (0 -> 1000), stripes move down at different rates
     const yYellow = useTransform(scrollY, [0, 1000], [0, 150]); 
     const yOrange = useTransform(scrollY, [0, 1000], [0, 250]); 
     const yPink = useTransform(scrollY, [0, 1000], [0, 350]); 
@@ -28,8 +23,6 @@ export const RetroStripesLeft: React.FC = () => {
                         <feDropShadow dx="3" dy="3" stdDeviation="0" floodColor="black" />
                     </filter>
                  </defs>
-
-                 {/* Pink (Back / Longest / Furthest from edge) */}
                  <motion.path 
                     d={`M ${2*(STRIPE_WIDTH+GAP)} ${Y_START} L ${2*(STRIPE_WIDTH+GAP)} 600 Q ${2*(STRIPE_WIDTH+GAP) + STRIPE_WIDTH/2} 640 ${2*(STRIPE_WIDTH+GAP) + STRIPE_WIDTH} 600 L ${2*(STRIPE_WIDTH+GAP) + STRIPE_WIDTH} ${Y_START} Z`}
                     fill={COLOR_PINK}
@@ -38,8 +31,6 @@ export const RetroStripesLeft: React.FC = () => {
                     style={{ y: yPink }}
                     filter="url(#shadow-left)"
                  />
-                 
-                 {/* Orange (Middle) */}
                  <motion.path 
                     d={`M ${STRIPE_WIDTH+GAP} ${Y_START} L ${STRIPE_WIDTH+GAP} 500 Q ${STRIPE_WIDTH+GAP + STRIPE_WIDTH/2} 540 ${STRIPE_WIDTH+GAP + STRIPE_WIDTH} 500 L ${STRIPE_WIDTH+GAP + STRIPE_WIDTH} ${Y_START} Z`}
                     fill={COLOR_ORANGE}
@@ -48,8 +39,6 @@ export const RetroStripesLeft: React.FC = () => {
                     style={{ y: yOrange }}
                     filter="url(#shadow-left)"
                  />
-
-                 {/* Yellow (Front / Shortest / Closest to edge) */}
                  <motion.path 
                     d={`M 0 ${Y_START} L 0 400 Q ${STRIPE_WIDTH/2} 440 ${STRIPE_WIDTH} 400 L ${STRIPE_WIDTH} ${Y_START} Z`}
                     fill={COLOR_YELLOW}
@@ -65,17 +54,12 @@ export const RetroStripesLeft: React.FC = () => {
 
 export const RetroStripesRight: React.FC = () => {
     const { scrollY } = useScroll();
-    
-    // Parallax speeds matching left side
     const yYellow = useTransform(scrollY, [0, 1000], [0, 150]);
     const yOrange = useTransform(scrollY, [0, 1000], [0, 250]);
     const yPink = useTransform(scrollY, [0, 1000], [0, 350]);
-
-    // Container Width for calculation
     const W = 220; // Increased container width for safer spacing
 
     return (
-        // Added right-[-1px] to ensure no sub-pixel gaps at the screen edge
         <div className="absolute -right-[1px] top-0 h-[150vh] w-[220px] pointer-events-none z-0 hidden md:block overflow-visible">
              <svg width="100%" height="100%" className="overflow-visible">
                  <defs>
@@ -83,8 +67,6 @@ export const RetroStripesRight: React.FC = () => {
                         <feDropShadow dx="-3" dy="3" stdDeviation="0" floodColor="black" />
                     </filter>
                  </defs>
-
-                 {/* Pink (Furthest from edge / Longest) */}
                  <motion.path 
                     d={`M ${W - 3*STRIPE_WIDTH - 2*GAP} ${Y_START} L ${W - 3*STRIPE_WIDTH - 2*GAP} 600 Q ${W - 3*STRIPE_WIDTH - 2*GAP + STRIPE_WIDTH/2} 640 ${W - 2*STRIPE_WIDTH - 2*GAP} 600 L ${W - 2*STRIPE_WIDTH - 2*GAP} ${Y_START} Z`}
                     fill={COLOR_PINK}
@@ -93,8 +75,6 @@ export const RetroStripesRight: React.FC = () => {
                     style={{ y: yPink }}
                     filter="url(#shadow-right)"
                  />
-
-                 {/* Orange (Middle) */}
                  <motion.path 
                     d={`M ${W - 2*STRIPE_WIDTH - GAP} ${Y_START} L ${W - 2*STRIPE_WIDTH - GAP} 500 Q ${W - 2*STRIPE_WIDTH - GAP + STRIPE_WIDTH/2} 540 ${W - STRIPE_WIDTH - GAP} 500 L ${W - STRIPE_WIDTH - GAP} ${Y_START} Z`}
                     fill={COLOR_ORANGE}
@@ -103,8 +83,6 @@ export const RetroStripesRight: React.FC = () => {
                     style={{ y: yOrange }}
                     filter="url(#shadow-right)"
                  />
-
-                 {/* Yellow (Closest to edge / Shortest) */}
                  <motion.path 
                     d={`M ${W - STRIPE_WIDTH} ${Y_START} L ${W - STRIPE_WIDTH} 400 Q ${W - STRIPE_WIDTH + STRIPE_WIDTH/2} 440 ${W} 400 L ${W} ${Y_START} Z`}
                     fill={COLOR_YELLOW}

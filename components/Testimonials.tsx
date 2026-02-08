@@ -7,7 +7,7 @@ export const Testimonials: React.FC = () => {
   return (
     <div className="w-full bg-cream border-t-[3px] border-black py-20 px-4 overflow-hidden relative">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none opacity-10">
-         <span className="font-retro text-[15vw] leading-none">FLOWFEST LOVE</span>
+         <span className="font-retro text-[15vw] leading-none">E-Summit'2026</span>
       </div>
       
       <div className="max-w-7xl mx-auto relative z-10">

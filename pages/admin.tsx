@@ -76,7 +76,7 @@ export default function AdminPanel() {
 
     } catch (error) {
       console.error('Failed to update status', error);
-      // Revert on error
+     
       fetchRegistrations(key, true);
       alert('Failed to update status. Please try again.');
     }
@@ -122,7 +122,7 @@ export default function AdminPanel() {
   return (
     <div className="min-h-screen bg-[#FCF7E4] font-sans text-black p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+       
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
            <div>
                <h1 className="font-black text-4xl md:text-5xl mb-2">Dashboard</h1>
@@ -145,7 +145,7 @@ export default function AdminPanel() {
            </div>
         </div>
 
-        {/* Filters */}
+       
         <div className="bg-white border-[3px] border-black rounded-xl p-4 mb-6 shadow-[4px_4px_0px_0px_#000000] flex items-center gap-3">
             <Search className="w-5 h-5 text-gray-400" />
             <input 
@@ -157,7 +157,7 @@ export default function AdminPanel() {
             />
         </div>
 
-        {/* Table */}
+       
         <div className="bg-white border-[3px] border-black rounded-xl overflow-hidden shadow-[8px_8px_0px_0px_#000000] overflow-x-auto">
             <table className="w-full text-left border-collapse">
                 <thead>

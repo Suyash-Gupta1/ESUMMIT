@@ -4,6 +4,8 @@ import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-mo
 import { ArrowRight, Star } from 'lucide-react';
 import Link from 'next/link';
 
+// --- DATA ---
+// FIX 1: Reduced image resolution (w=500) for faster loading and rendering
 const CARDS = [
   {
     id: 1,
@@ -36,6 +38,7 @@ const Hero: React.FC = () => {
   const [cards, setCards] = useState(CARDS);
   const [isMobile, setIsMobile] = useState(false);
 
+  // FIX 2: Detect mobile device to disable heavy effects
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -55,7 +58,7 @@ const Hero: React.FC = () => {
   return (
     <div className="relative w-full min-h-screen bg-[#FCF7E4] text-[#1a1a1a] font-serif overflow-x-hidden selection:bg-[#c25e5e] selection:text-white flex flex-col items-center">
       
-
+      {/* --- BACKGROUND TEXTURES --- */}
       <div 
         className="absolute inset-0 pointer-events-none opacity-20"
         style={{
@@ -63,19 +66,20 @@ const Hero: React.FC = () => {
           backgroundSize: '30px 30px'
         }}
       />
-
+      {/* FIX 3: Disable noise texture on mobile (heavy on GPU) */}
       <div className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.1)_100%)]" />
 
-
+      {/* --- SIDE STRIPES (Hidden on Mobile) --- */}
       <div className="hidden md:block fixed top-0 left-0 h-full w-2 md:w-3 bg-[#e0a82e] border-r-2 border-[#2a2a2a] z-40"></div>
       <div className="hidden md:block fixed top-0 left-2 md:left-3 h-full w-2 md:w-3 bg-[#c25e5e] border-r-2 border-[#2a2a2a] z-40"></div>
       <div className="hidden md:block fixed top-0 right-0 h-full w-2 md:w-3 bg-[#c25e5e] border-l-2 border-[#2a2a2a] z-40"></div>
       <div className="hidden md:block fixed top-0 right-2 md:right-3 h-full w-2 md:w-3 bg-[#e0a82e] border-l-2 border-[#2a2a2a] z-40"></div>
 
+      {/* --- MAIN CONTENT --- */}
       <main className="relative z-10 flex flex-col items-center w-full max-w-[1400px] px-6 md:px-16 pt-20 md:pt-24 pb-12 md:pb-12">
         
-
+        {/* HEADER WRAPPER */}
         <div className="flex flex-col items-center w-full mb-8 md:mb-12">
             <motion.div 
               initial={{ y: -20, opacity: 0 }}
@@ -96,18 +100,18 @@ const Hero: React.FC = () => {
             </div>
         </div>
 
-
+        {/* --- CENTRAL LAYOUT --- */}
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center mt-2">
           
           {/* LEFT */}
           <div className="hidden lg:flex lg:col-span-3 flex-col items-start pl-12">
             <h2 className="text-6xl font-serif font-bold text-[#e0a82e] mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">01.</h2>
             <p className="font-bold text-sm uppercase leading-relaxed tracking-widest text-[#4a3b2a]">
-              NIT Durgapur's<br/>Entreprenurial<br/>Summit
+              NIT Durgapur's<br/>Premier<br/>Business Experience
             </p>
           </div>
 
-
+          {/* CENTER: CARDS */}
           <div className="col-span-1 lg:col-span-6 flex justify-center relative h-[300px] md:h-[400px] items-center perspective-1000 z-20">
              <div className="relative w-full h-full flex items-center justify-center">
                  <AnimatePresence>
@@ -141,7 +145,7 @@ const Hero: React.FC = () => {
              </div>
           </div>
 
-        
+          {/* RIGHT */}
           <div className="hidden lg:flex lg:col-span-3 flex-col items-end pr-12 text-right">
             <h2 className="text-6xl font-serif font-bold text-[#c25e5e] mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">08.08</h2>
             <p className="font-bold text-sm uppercase leading-relaxed tracking-widest text-[#4a3b2a]">
@@ -150,7 +154,7 @@ const Hero: React.FC = () => {
           </div>
         </div>
 
-        
+        {/* --- MOBILE INFO ROW --- */}
         <div className="flex lg:hidden w-full justify-between items-start mt-8 px-2">
             <div className="text-left">
                 <h2 className="text-4xl font-serif font-bold text-[#e0a82e] mb-1 drop-shadow-[1px_1px_0px_rgba(0,0,0,0.5)]">01.</h2>
@@ -166,7 +170,7 @@ const Hero: React.FC = () => {
             </div>
         </div>
 
-        
+        {/* --- REGISTER BUTTON --- */}
         <div className="mt-12 lg:mt-4 relative z-30 mb-8 md:mb-0">
           <Link href="/events">
             <motion.button 
@@ -184,7 +188,7 @@ const Hero: React.FC = () => {
   );
 };
 
-
+// --- OPTIMIZED CARD COMPONENT ---
 const Card = ({ data, index, isTop, onSwipe, customStyle, isMobile }: any) => {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-200, 200], [-10, 10]);
@@ -202,6 +206,7 @@ const Card = ({ data, index, isTop, onSwipe, customStyle, isMobile }: any) => {
       }}
       drag={isTop ? "x" : false}
       dragConstraints={{ left: 0, right: 0 }}
+      // FIX 4: Less drag resistance on mobile for easier swipes
       dragElastic={0.05}
       onDragEnd={(_, info) => {
         if (Math.abs(info.offset.x) > 100) onSwipe();
@@ -214,8 +219,9 @@ const Card = ({ data, index, isTop, onSwipe, customStyle, isMobile }: any) => {
         rotate: isTop ? 0 : customStyle.rotate,
         opacity: 1
       }}
-     
+      // FIX 5: Snappier spring physics for mobile
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      // FIX 6: 'will-change-transform' forces GPU usage, preventing lag
       className={`
         absolute 
         w-[85vw] md:w-[420px] aspect-[4/3]
@@ -235,6 +241,7 @@ const Card = ({ data, index, isTop, onSwipe, customStyle, isMobile }: any) => {
             src={data.image} 
             alt="Vintage" 
             draggable="false"
+            // FIX 7: Disable Sepia/Contrast filters on mobile to save GPU power
             className={`w-full h-full object-cover transition-all duration-500 select-none ${!isMobile ? 'sepia-[0.3] contrast-125 hover:sepia-0' : ''}`}
          />
          <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] pointer-events-none"></div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import { Footer } from './Footer';
 import { NoiseOverlay } from './NoiseOverlay';
+import SmoothScroll from './SmoothScroll';
 
 import { useRouter } from 'next/router';
 
@@ -23,7 +24,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {!isAdmin && <Navbar />}
       
       <main className="flex-grow flex flex-col relative z-10">
-        {children}
+        <SmoothScroll>
+            {children}
+        </SmoothScroll>
       </main>
 
       

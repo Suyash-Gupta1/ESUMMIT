@@ -10,7 +10,6 @@ const RETRO_COLORS = ["#F48FB1", "#FFB74D", "#FDD835", "#FB8C00"];
 export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
   return (
     <>
-      {/* 1. The Page Content */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -20,8 +19,6 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
       >
         {children}
       </motion.div>
-
-      {/* 2. The Transition Wipe Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[999] flex flex-col">
         {RETRO_COLORS.map((color, i) => (
           <motion.div
@@ -32,7 +29,7 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
               originX: i % 2 === 0 ? 0 : 1 
             }}
             initial={{ scaleX: 0 }}
-            animate={{ scaleX: 0 }} // Keep collapsed while page is active
+            animate={{ scaleX: 0 }}
             exit={{ scaleX: [0, 1, 1, 0] }}
             transition={{
               duration: 1.1,
@@ -42,8 +39,6 @@ export const PageTransition: React.FC<PageTransitionProps> = ({ children }) => {
             }}
           />
         ))}
-
-        {/* 3. Central Branding Flash - FIXED: Stays hidden unless exiting */}
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 0 }} // THIS KEEPS IT FROM BEING "GLUED" TO THE SCREEN

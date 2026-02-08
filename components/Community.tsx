@@ -21,8 +21,7 @@ export const Community: React.FC = () => {
   return (
     <div className="w-full bg-cream border-t-[3px] border-black py-20 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12">
-          
-          {/* Left Text */}
+
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -33,12 +32,12 @@ export const Community: React.FC = () => {
              <h2 className="font-retro text-5xl md:text-6xl text-black leading-[1] mb-6">
                 An Event Ran by
                 <br />
-                The Community,
+                The EDC,
                 <br />
-                <span className="text-retro-dark-orange">For The Community</span>
+                <span className="text-retro-dark-orange">For The Entrepreneurial Community</span>
              </h2>
              <p className="font-sans text-base mb-8">
-                This is a <span className="font-bold text-retro-pink">non-profit</span> event run by <span className="font-bold">volunteer</span> community members. At FlowFest our motivation is to lead with kindness, inclusivity, support and <span className="font-bold">FUN</span>, obvs.
+                This is a <span className="font-bold text-retro-pink">non-profit</span> event run by <span className="font-bold">EDC</span> club members. At E-Summit our motivation is to lead with kindness, inclusivity, support and <span className="font-bold">FUN</span>, obvs.
              </p>
              <motion.button 
                 whileHover={{ scale: 1.05 }}
@@ -48,8 +47,6 @@ export const Community: React.FC = () => {
                 Buy Tickets
              </motion.button>
           </motion.div>
-
-          {/* Right Grid */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"

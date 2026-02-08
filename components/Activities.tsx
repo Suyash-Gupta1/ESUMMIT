@@ -8,17 +8,14 @@ export const Activities: React.FC = () => {
     return (
         <div className="w-full bg-cream border-t-[3px] border-black py-20 px-4">
             <div id="activities" className="w-full bg-cream py-12 md:py-24 px-4 flex justify-center">
-            {/* Main Card Container */}
-            <div className="w-full max-w-6xl h-[500px] md:h-[600px] flex border-[3px] border-black rounded-[2rem] md:rounded-[3rem] overflow-hidden relative shadow-retro-lg bg-white">
-                
-                {/* Left Sidebar - What to Expect */}
+
+            <div className="w-full max-w-8xl h-[500px] md:h-[600px] flex border-[3px] border-black rounded-[2rem] md:rounded-[3rem] overflow-hidden relative shadow-retro-lg bg-white">
+
                 <div className="w-20 md:w-32 lg:w-40 bg-black border-r-[3px] border-black flex items-center justify-center shrink-0 relative z-20">
                      <h2 className="font-retro text-3xl md:text-5xl lg:text-6xl text-white whitespace-nowrap -rotate-90 tracking-widest leading-none select-none">
                         What to Expect
                      </h2>
                 </div>
-
-                {/* Right List */}
                 <div className="flex-1 flex flex-col relative z-10">
                     {ACTIVITIES.map((activity, index) => (
                         <motion.div 
@@ -36,8 +33,6 @@ export const Activities: React.FC = () => {
                         </motion.div>
                     ))}
                 </div>
-
-                {/* Floating Image Overlay - Centered in the whole card */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none w-56 h-56 md:w-80 md:h-80 lg:w-96 lg:h-96">
                     <AnimatePresence mode="wait">
                         {activeIndex !== null && (

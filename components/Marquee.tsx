@@ -16,7 +16,6 @@ export const Marquee: React.FC = () => {
             duration: 20,
           }}
         >
-          {/* Repeat the list multiple times to ensure seamless loop */}
           {[...SPONSORS, ...SPONSORS, ...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
             <React.Fragment key={idx}>
               <div className="flex items-center gap-2">

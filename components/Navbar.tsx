@@ -8,51 +8,38 @@ const Navbar: React.FC = () => {
   const [hidden, setHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Ref to store the inactivity timer
   const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // --- SCROLL & IDLE LOGIC ---
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     
-    // 1. Clear any existing idle timer immediately when scrolling occurs
     if (idleTimerRef.current) {
       clearTimeout(idleTimerRef.current);
     }
 
-    // 2. SCROLL DIRECTION LOGIC
     if (latest > previous && latest > 100) {
-      // SCROLLING DOWN: Hide immediately
       setHidden(true);
     } else {
-      // SCROLLING UP: Show immediately
       setHidden(false);
 
-      // 3. IDLE LOGIC (Only triggers if we are currently visible/scrolling up)
-      // If user stops scrolling for 3.5 seconds, hide the navbar again.
       idleTimerRef.current = setTimeout(() => {
-        // Only apply this "Idle Hide" on Laptop/Desktop screens (md breakpoint)
-        // and ensure we aren't at the very top of the page.
         if (typeof window !== 'undefined' && window.innerWidth >= 768 && latest > 100) {
            setHidden(true);
         }
-      }, 3500); // 3.5 seconds delay
+      }, 3500);
     }
   });
 
-  // Cleanup timer on unmount
   useEffect(() => {
     return () => {
       if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     };
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset';
   }, [isMobileMenuOpen]);
 
-  // Sub-component for Nav Links
   const NavLink = ({ href, label, delay = 0 }: { href: string; label: string; delay?: number }) => (
     <motion.div
       whileHover={{ y: -5 }}
@@ -75,13 +62,12 @@ const Navbar: React.FC = () => {
       <motion.nav
         variants={{
           visible: { y: 0 },
-          hidden: { y: "-120%" }, // Slides up completely
+          hidden: { y: "-120%" },
         }}
         animate={hidden ? "hidden" : "visible"}
         transition={{ duration: 0.4, ease: "easeInOut" }}
         className="fixed top-0 left-0 right-0 z-[100] w-full p-2 md:px-8 md:pt-4 pointer-events-none md:pointer-events-auto"
       >
-        {/* Main Navbar Container */}
         <div className="relative max-w-7xl mx-auto flex items-center justify-end md:justify-between 
                         bg-transparent border-0 p-0 shadow-none
                         md:bg-cream md:border-2 md:border-black md:rounded-xl md:px-6 md:py-3 md:shadow-retro-sm">
@@ -89,7 +75,6 @@ const Navbar: React.FC = () => {
           <div className="hidden md:block absolute top-1 left-1 w-4 h-4 border-t border-l border-black/20" />
           <div className="hidden md:block absolute top-1 right-1 w-4 h-4 border-t border-r border-black/20" />
 
-          {/* Logo (Desktop Only) */}
           <div className="flex-shrink-0 hidden md:flex pointer-events-auto">
             <Link href="/" className="flex flex-col">
               <span className="font-retro text-xl md:text-2xl text-black leading-none">
@@ -99,7 +84,6 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Links (Desktop Only) */}
           <div className="hidden lg:flex items-end gap-2 absolute left-1/2 -translate-x-1/2 bottom-[-2px] pointer-events-auto">
             <NavLink href="/" label="Home" delay={0.1} />
             <NavLink href="/#about" label="About" delay={0.2} />
@@ -107,7 +91,6 @@ const Navbar: React.FC = () => {
             <NavLink href="/events" label="Events" delay={0.4} />
           </div>
 
-          {/* Right Section */}
           <div className="flex items-center gap-4 pointer-events-auto">
             <Link href="/events" className="hidden md:block">
               <motion.button 
@@ -121,7 +104,6 @@ const Navbar: React.FC = () => {
               </motion.button>
             </Link>
 
-            {/* Mobile Hamburger */}
             <button 
               className="lg:hidden p-2 bg-cream border-2 border-black rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
               onClick={() => setIsMobileMenuOpen(true)}
@@ -132,7 +114,6 @@ const Navbar: React.FC = () => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div

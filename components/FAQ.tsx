@@ -21,35 +21,28 @@ const RotatingCube: React.FC = () => {
                 style={{ transformStyle: 'preserve-3d' }}
                 className="relative w-48 h-48"
             >
-                {/* Front */}
                 <div className="absolute inset-0 border-4 border-black bg-retro-yellow flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]" 
                      style={{ transform: 'translateZ(96px)' }}>
                      <span className="font-retro text-8xl text-black">?</span>
                 </div>
-                {/* Back */}
                 <div className="absolute inset-0 border-4 border-black bg-retro-pink flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]" 
                      style={{ transform: 'rotateY(180deg) translateZ(96px)' }}>
                      <span className="font-retro text-8xl text-white text-stroke">?</span>
                 </div>
-                {/* Right */}
                 <div className="absolute inset-0 border-4 border-black bg-retro-orange flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]" 
                      style={{ transform: 'rotateY(90deg) translateZ(96px)' }}>
                      <div className="w-12 h-12 bg-black rounded-full"></div>
                 </div>
-                {/* Left */}
                 <div className="absolute inset-0 border-4 border-black bg-retro-orange flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.1)]" 
                      style={{ transform: 'rotateY(-90deg) translateZ(96px)' }}>
                      <div className="w-12 h-12 bg-black rounded-full"></div>
                 </div>
-                {/* Top */}
                 <div className="absolute inset-0 border-4 border-black bg-white" 
                      style={{ transform: 'rotateX(90deg) translateZ(96px)' }}></div>
-                {/* Bottom */}
                 <div className="absolute inset-0 border-4 border-black bg-black" 
                      style={{ transform: 'rotateX(-90deg) translateZ(96px)' }}></div>
             </motion.div>
             
-            {/* Shadow on the floor */}
              <motion.div 
                 animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.1, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -66,7 +59,6 @@ export const FAQ: React.FC = () => {
     <div className="w-full bg-cream border-t-[3px] border-black py-20 px-4">
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-12">
         
-        {/* Left Side */}
         <div className="lg:w-1/3">
              <motion.div
                  initial={{ opacity: 0, x: -30 }}
@@ -80,7 +72,6 @@ export const FAQ: React.FC = () => {
                 </h2>
              </motion.div>
              
-             {/* 3D Animated Element - Hidden on mobile */}
              <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -92,7 +83,6 @@ export const FAQ: React.FC = () => {
              </motion.div>
         </div>
 
-        {/* Accordion */}
         <div className="lg:w-2/3 flex flex-col gap-4">
             {FAQS.map((faq, index) => {
                 const isOpen = openIndex === index;

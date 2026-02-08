@@ -13,23 +13,22 @@ const SpeakerCard: React.FC<{ speaker: typeof SPEAKERS[0], className?: string, i
       whileHover={{ y: -10, rotate: index % 2 === 0 ? 1 : -1, transition: { duration: 0.2 } }}
       className={`relative group ${className}`}
     >
-        {/* Type Label */}
+
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-black px-3 py-1 text-xs font-bold uppercase z-20 shadow-sm">
             {speaker.type}
         </div>
 
-        {/* Card Body */}
         <div className={`w-full aspect-[4/5] ${speaker.color} border-[3px] border-black rounded-xl overflow-hidden relative shadow-retro group-hover:shadow-retro-lg transition-all duration-300`}>
-            {/* Image */}
+
             <img src={speaker.image} alt={speaker.name} className="w-full h-2/3 object-cover border-b-[3px] border-black grayscale group-hover:grayscale-0 transition-all duration-300" />
             
-            {/* Info */}
+
             <div className="p-4 text-center">
                 <h3 className="font-retro text-xl md:text-2xl leading-none mb-1">{speaker.name}</h3>
                 <p className="font-sans text-xs md:text-sm font-bold">{speaker.role}</p>
             </div>
 
-            {/* Hover Description Overlay */}
+            
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-center items-center text-center">
                  <h3 className={`font-retro text-xl mb-2 px-1 ${speaker.type === 'Keynote' ? 'text-retro-yellow' : 'text-retro-pink'} text-stroke drop-shadow-sm`}>{speaker.name}</h3>
                  <p className="font-sans text-xs md:text-sm leading-tight">{speaker.description}</p>
@@ -44,8 +43,7 @@ export const Speakers: React.FC = () => {
         <div id="speakers" className="relative w-full py-20 px-4 md:px-8 bg-cream border-t-[3px] border-black">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-0 relative">
-                    
-                    {/* Left Title Area */}
+
                     <div className="lg:col-span-3 flex flex-col justify-start pt-10 relative z-10">
                         <motion.h2 
                             initial={{ opacity: 0, x: -50 }}
@@ -84,7 +82,6 @@ export const Speakers: React.FC = () => {
                         </Link>
                     </div>
 
-                    {/* Right Grid Area */}
                     <div className="lg:col-span-9 relative">
                          {/* Animated SVG Connector Lines (Desktop Only) */}
                          <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
@@ -95,9 +92,6 @@ export const Speakers: React.FC = () => {
                                     </filter>
                                 </defs>
                                 
-                                {/* Path 1: Keynote (Top Center) down to Row 2 Left */}
-                                {/* Start: 50, 22. End: 16.6, 45 */}
-                                {/* Color: Orange (Matches Ilja) */}
                                 <motion.path 
                                     d="M 50 22 C 50 40, 16.6 30, 16.6 45"
                                     fill="transparent"
@@ -109,10 +103,6 @@ export const Speakers: React.FC = () => {
                                     viewport={{ once: true }}
                                     transition={{ duration: 1.2, ease: "easeInOut" }}
                                 />
-                                
-                                {/* Path 2: Keynote (Top Center) down to Row 2 Right */}
-                                {/* Start: 50, 22. End: 83.3, 45 */}
-                                {/* Color: Pink (Matches Cassie) */}
                                 <motion.path 
                                     d="M 50 22 C 50 40, 83.3 30, 83.3 45"
                                     fill="transparent"
@@ -124,10 +114,6 @@ export const Speakers: React.FC = () => {
                                     viewport={{ once: true }}
                                     transition={{ duration: 1.2, ease: "easeInOut" }}
                                 />
-
-                                {/* Path 3: Row 2 Left to Row 3 Center-Left */}
-                                {/* Start: 16.6, 55 (Higher up to be behind card). End: 33.3, 78 */}
-                                {/* Color: Pink (Matches Steph) */}
                                 <motion.path 
                                     d="M 16.6 55 C 16.6 70, 33.3 65, 33.3 78"
                                     fill="transparent"
@@ -139,10 +125,6 @@ export const Speakers: React.FC = () => {
                                     viewport={{ once: true }}
                                     transition={{ duration: 1, delay: 0.6, ease: "easeInOut" }}
                                 />
-
-                                {/* Path 4: Row 2 Right to Row 3 Center-Right */}
-                                {/* Start: 83.3, 55 (Higher up). End: 66.6, 78 */}
-                                {/* Color: Yellow (Matches Ross) */}
                                 <motion.path 
                                     d="M 83.3 55 C 83.3 70, 66.6 65, 66.6 78"
                                     fill="transparent"
@@ -156,16 +138,10 @@ export const Speakers: React.FC = () => {
                                 />
                             </svg>
                          </div>
-
-                         {/* Grid Placement */}
                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-y-16 lg:gap-x-8">
-                             
-                             {/* Keynote - Centered top */}
                              <div className="lg:col-start-3 lg:col-span-2 relative z-10">
                                 <SpeakerCard speaker={SPEAKERS[0]} index={0} />
                              </div>
-
-                             {/* Second Row */}
                              <div className="lg:col-start-1 lg:col-span-2 lg:row-start-2 relative z-10 pt-10 lg:pt-0">
                                 <SpeakerCard speaker={SPEAKERS[1]} index={1} />
                              </div>
@@ -173,8 +149,6 @@ export const Speakers: React.FC = () => {
                              <div className="lg:col-start-5 lg:col-span-2 lg:row-start-2 relative z-10 pt-10 lg:pt-0">
                                 <SpeakerCard speaker={SPEAKERS[2]} index={2} />
                              </div>
-
-                             {/* Third Row (Flows from previous) */}
                              <div className="lg:col-start-2 lg:col-span-2 lg:row-start-3 relative z-10">
                                 <SpeakerCard speaker={SPEAKERS[3]} index={3} />
                              </div>
